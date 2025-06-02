@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle file uploads
     setupFileUploads();
+    
+    // Initialize mobile menu
+    setupMobileMenu();
 });
 
 // Smooth Scrolling
@@ -67,6 +70,31 @@ window.addEventListener('scroll', function() {
         nav.style.background = 'rgba(0, 0, 0, 0.9)';
     }
 });
+
+// Mobile Menu Setup
+function setupMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    
+    // Toggle mobile menu
+    menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+        
+        // Animate hamburger to X
+        this.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            menuToggle.classList.remove('active');
+        });
+    });
+}
 
 // Intersection Observer for animations
 function observeElements() {

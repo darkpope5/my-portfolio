@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Prince Chinwendu - The Blakpope | Digital Alchemist</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -41,8 +44,22 @@
                 <a href="#portfolio">Work</a>
                 <a href="#contact">Contact</a>
             </div>
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#hero" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#services" class="mobile-link">Services</a>
+        <a href="#portfolio" class="mobile-link">Work</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </div>
 
 
 
