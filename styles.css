@@ -275,10 +275,11 @@ h1, h2, h3 {
 }
 
 .about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .story-text h3 {
@@ -293,57 +294,7 @@ h1, h2, h3 {
     line-height: 1.8;
 }
 
-/* Ikigai Diagram */
-.ikigai-diagram {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-}
 
-.ikigai-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #FFD700;
-    color: #000;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
-    z-index: 2;
-}
-
-.ikigai-circle {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: 3px solid #FFD700;
-    background: rgba(255, 215, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.ikigai-circle:hover {
-    background: rgba(255, 215, 0, 0.2);
-    transform: scale(1.05);
-}
-
-.love { top: 0; left: 50%; transform: translateX(-50%); }
-.good { top: 50%; right: 0; transform: translateY(-50%); }
-.pays { bottom: 0; left: 50%; transform: translateX(-50%); }
-.needs { top: 50%; left: 0; transform: translateY(-50%); }
 
 /* Services Section */
 .services-section {
@@ -724,8 +675,9 @@ body.menu-open {
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding-top: 80px;
     transition: right 0.3s ease;
 }
 
@@ -736,8 +688,8 @@ body.menu-open {
 .mobile-menu a {
     color: #fff;
     text-decoration: none;
-    font-size: 1.5rem;
-    margin: 1rem 0;
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
     position: relative;
     transition: color 0.3s ease;
 }
@@ -825,16 +777,7 @@ body.menu-open {
         gap: 2rem;
     }
     
-    .ikigai-diagram {
-        width: 300px;
-        height: 300px;
-    }
-    
-    .ikigai-circle {
-        width: 120px;
-        height: 120px;
-        font-size: 0.8rem;
-    }
+
     
     .framework-step {
         flex-direction: column !important;
