@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prince Chinwendu - The Blakpope | Digital Alchemist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.0/firebase-app.js';
+        import { getStorage } from 'https://www.gstatic.com/firebasejs/11.8.0/firebase-storage.js';
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+
+        // Make Firebase storage available globally
+        window.firebaseStorage = storage;
+    </script>
+</head>
+<body>
+    <!-- Sticky Navigation -->
+    <nav class="nav-sticky">
+        <div class="nav-container">
+            <div class="nav-logo">The Blakpope</div>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#portfolio">Work</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-name">PRINCE CHINWENDU</h1>
+                    <div class="hero-subtitle">
+                        <span id="typing-text"></span>
+                        <span class="cursor">|</span>
+                    </div>
+                    <p class="hero-tagline">"Shaping minds, systems, and stories that scale."</p>
+                    <p class="hero-intro">I help people, products, and platforms reinvent and rise—from engineering to brand ecosystems.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollToSection('portfolio')">👇 View My Work</button>
+                        <button class="btn btn-secondary" onclick="downloadCV()">📄 Download CV</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="profile-placeholder">
+                        <img id="profile-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23FFD700'/%3E%3Ctext x='100' y='110' text-anchor='middle' font-size='60' fill='%23000'%3EPC%3C/text%3E%3C/svg%3E" alt="Prince Chinwendu">
+                        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                        <button class="upload-btn" onclick="document.getElementById('profile-upload').click()">Upload Photo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-story">
+                    <div class="story-text editable" contenteditable="true">
+                        <h3>My Journey</h3>
+                        <p>From welding sparks to digital systems, my path has been anything but conventional. During COVID recovery, I discovered my true calling in the intersection of technology and human psychology.</p>
+                        <p>What started as curiosity about how things work evolved into a passion for building systems that transform businesses and lives. I've learned that the most powerful brands aren't just seen—they're felt, experienced, and remembered.</p>
+                        <p>Today, I architect digital experiences that don't just function—they flourish. Every project is an opportunity to blend creativity with strategy, turning complex challenges into elegant solutions.</p>
+                    </div>
+                </div>
+                <div class="about-ikigai">
+                    <div class="ikigai-diagram">
+                        <div class="ikigai-center">IKIGAI</div>
+                        <div class="ikigai-circle love">Creative Strategy</div>
+                        <div class="ikigai-circle good">Digital Systems</div>
+                        <div class="ikigai-circle pays">Marketing ROI</div>
+                        <div class="ikigai-circle needs">Brand Clarity</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">What I Do</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Brand Strategy & Identity</h3>
+                    <p class="editable" contenteditable="true">Craft bold, mysterious brands that scale.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Digital Automation & CRM</h3>
+                    <p class="editable" contenteditable="true">Smart systems for real-time growth.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📚</div>
+                    <h3>Course & Funnel Architecture</h3>
+                    <p class="editable" contenteditable="true">Turn knowledge into profitable products.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Content & Social Direction</h3>
+                    <p class="editable" contenteditable="true">Build communities and drive conversions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework Section -->
+    <section id="framework" class="framework-section">
+        <div class="container">
+            <h2 class="section-title">My 5-Part Framework</h2>
+            <div class="framework-timeline">
+                <div class="framework-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Purpose</h3>
+                        <p class="editable" contenteditable="true">Define the why behind every decision</p>
+                    </div>
+                </div>
+                <div class="framework-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Structure</h3>
+                        <p class="editable" contenteditable="true">Build the foundation for sustainable growth</p>
+                    </div>
+                </div>
+                <div class="framework-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Story</h3>
+                        <p class="editable" contenteditable="true">Craft narratives that resonate and convert</p>
+                    </div>
+                </div>
+                <div class="framework-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Systems</h3>
+                        <p class="editable" contenteditable="true">Automate processes for efficiency and scale</p>
+                    </div>
+                </div>
+                <div class="framework-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Scale</h3>
+                        <p class="editable" contenteditable="true">Expand reach while maintaining quality</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="container">
+            <h2 class="section-title">Proof Over Promises</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23FFD700'/%3E%3Ctext x='150' y='100' text-anchor='middle' font-size='20' fill='%23000'%3EEvro Homes%3C/text%3E%3C/svg%3E" alt="Evro Homes">
+                        <input type="file" class="portfolio-upload" accept="image/*" style="display: none;">
+                        <button class="upload-overlay" onclick="this.previousElementSibling.click()">Upload Image</button>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Evro Homes</h3>
+                        <p class="editable" contenteditable="true">Real Estate Brand: +35% growth</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23FFD700'/%3E%3Ctext x='150' y='100' text-anchor='middle' font-size='20' fill='%23000'%3EDigital Kurrency%3C/text%3E%3C/svg%3E" alt="Digital Kurrency">
+                        <input type="file" class="portfolio-upload" accept="image/*" style="display: none;">
+                        <button class="upload-overlay" onclick="this.previousElementSibling.click()">Upload Image</button>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Digital Kurrency</h3>
+                        <p class="editable" contenteditable="true">Music Artist: 2,000% stream boost</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23FFD700'/%3E%3Ctext x='150' y='100' text-anchor='middle' font-size='20' fill='%23000'%3ELifeTaste%3C/text%3E%3C/svg%3E" alt="LifeTaste Beverages">
+                        <input type="file" class="portfolio-upload" accept="image/*" style="display: none;">
+                        <button class="upload-overlay" onclick="this.previousElementSibling.click()">Upload Image</button>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>LifeTaste Beverages</h3>
+                        <p class="editable" contenteditable="true">Product Launch Campaign</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CV Download Section -->
+    <section id="cv" class="cv-section">
+        <div class="container">
+            <h2 class="section-title">Download My CV</h2>
+            <p class="cv-intro editable" contenteditable="true">Quick snapshot of my background and work—grab the PDF below.</p>
+            <div class="cv-upload-area">
+                <input type="file" id="cv-upload" accept=".pdf" style="display: none;">
+                <button class="btn btn-upload" onclick="document.getElementById('cv-upload').click()">Upload CV PDF</button>
+                <button class="btn btn-primary" onclick="downloadCV()">📄 Download CV</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Let's Build Something That Lasts</h2>
+            <p class="contact-subtitle">I'm just a click away—reach out and let's make magic.</p>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span class="editable" contenteditable="true">Port Harcourt, Nigeria</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span class="editable" contenteditable="true">08144249595</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span class="editable" contenteditable="true">pchinwendu@gmail.com</span>
+                    </div>
+                </div>
+                <div class="contact-ctas">
+                    <button class="btn btn-primary" onclick="openEmail()">Work With Me</button>
+                    <button class="btn btn-secondary" onclick="makeCall()">Book a Call</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
