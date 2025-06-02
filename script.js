@@ -1,198 +1,53 @@
-import { config, validateConfig } from './config.js';
+// Typing Animation
+const typingText = document.getElementById('typing-text');
+const phrases = [
+    'Digital Alchemist',
+    'Brand Strategist', 
+    'Systems Architect'
+];
 
-// Typing Animation with cleanup and error handling
-const typingAnimation = {
-    timer: null,
-    init() {
-        const typingText = document.getElementById('typing-text');
-        if (!typingText) {
-            console.error('Typing text element not found');
-            return;
-        }
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typingSpeed = 100;
 
-        const phrases = [
-            'Digital Alchemist',
-            'Brand Strategist', 
-            'Systems Architect'
-        ];
-
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typingSpeed = 100;
-
-        const typeWriter = () => {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-                typingSpeed = 50;
-            } else {
-                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-                typingSpeed = 100;
-            }
-            
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                typingSpeed = 2000; // Pause at end
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typingSpeed = 500; // Pause before next phrase
-            }
-            
-            this.timer = setTimeout(typeWriter, typingSpeed);
-        };
-
-        // Start typing animation
-        this.timer = setTimeout(typeWriter, 1000);
-    },
-    cleanup() {
-        if (this.timer) {
-            clearTimeout(this.timer);
-        }
+function typeWriter() {
+    const currentPhrase = phrases[phraseIndex];
+    
+    if (isDeleting) {
+        typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = 50;
+    } else {
+        typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 100;
     }
-};
-
-// Intersection Observer singleton
-const animationObserver = {
-    observer: null,
-    init() {
-        this.observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-    },
-    observe(element) {
-        if (!this.observer) {
-            this.init();
-        }
-        this.observer.observe(element);
-    },
-    cleanup() {
-        if (this.observer) {
-            this.observer.disconnect();
-        }
+    
+    if (!isDeleting && charIndex === currentPhrase.length) {
+        isDeleting = true;
+        typingSpeed = 2000; // Pause at end
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        typingSpeed = 500; // Pause before next phrase
     }
-};
-
-// Mobile Menu with accessibility
-const mobileMenu = {
-    init() {
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-        
-        if (!menuToggle || !mobileMenu) {
-            console.error('Mobile menu elements not found');
-            return;
-        }
-
-        // Add ARIA attributes
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Toggle navigation menu');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        
-        menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.setAttribute('aria-hidden', isExpanded);
-            
-            mobileMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-            menuToggle.classList.toggle('active');
-        });
-        
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-                menuToggle.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mobileMenu.setAttribute('aria-hidden', 'true');
-            });
-        });
-    }
-};
-
-// Firebase initialization with error handling
-async function initializeFirebase() {
-    if (!validateConfig()) {
-        console.error('Firebase configuration is invalid');
-        return null;
-    }
-
-    try {
-        const app = await import('https://www.gstatic.com/firebasejs/11.8.0/firebase-app.js');
-        const storage = await import('https://www.gstatic.com/firebasejs/11.8.0/firebase-storage.js');
-        
-        const firebaseApp = app.initializeApp(config.firebase);
-        return storage.getStorage(firebaseApp);
-    } catch (error) {
-        console.error('Failed to initialize Firebase:', error);
-        return null;
-    }
+    
+    setTimeout(typeWriter, typingSpeed);
 }
 
-// File upload handling with loading states
-async function handleFileUpload(file, storageRef, imgElement) {
-    if (!file || !file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
-        return;
-    }
-
-    const loadingIndicator = document.createElement('div');
-    loadingIndicator.className = 'loading-indicator';
-    loadingIndicator.textContent = 'Uploading...';
-    imgElement.parentNode.appendChild(loadingIndicator);
-
-    try {
-        await storageRef.put(file);
-        const downloadURL = await storageRef.getDownloadURL();
-        imgElement.src = downloadURL;
-    } catch (error) {
-        console.error('Error uploading file:', error);
-        alert('Failed to upload image. Please try again.');
-    } finally {
-        loadingIndicator.remove();
-    }
-}
-
-// Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize Firebase
-    const storage = await initializeFirebase();
-    if (!storage) {
-        console.error('Failed to initialize Firebase storage');
-        return;
-    }
-
-    // Start typing animation
-    typingAnimation.init();
+// Start typing animation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(typeWriter, 1000);
+    
+    // Initialize scroll animations
+    observeElements();
+    
+    // Handle file uploads
+    setupFileUploads();
     
     // Initialize mobile menu
-    mobileMenu.init();
-    
-    // Initialize animations
-    const elements = document.querySelectorAll('section, .service-card, .portfolio-item, .framework-step');
-    elements.forEach(element => animationObserver.observe(element));
-    
-    // Setup file upload handlers
-    setupFileUploads(storage);
-});
-
-// Cleanup on page unload
-window.addEventListener('unload', () => {
-    typingAnimation.cleanup();
-    animationObserver.cleanup();
+    setupMobileMenu();
 });
 
 // Smooth Scrolling
@@ -215,6 +70,253 @@ window.addEventListener('scroll', function() {
         nav.style.background = 'rgba(0, 0, 0, 0.9)';
     }
 });
+
+// Mobile Menu Setup
+function setupMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    
+    // Toggle mobile menu
+    menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+        
+        // Animate hamburger to X
+        this.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            menuToggle.classList.remove('active');
+        });
+    });
+}
+
+// Intersection Observer for animations
+function observeElements() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe all sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+    
+    // Observe cards and items
+    const cards = document.querySelectorAll('.service-card, .portfolio-item, .framework-step');
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+}
+
+// Firebase Configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
+
+// File Upload Handlers with Firebase Storage
+function setupFileUploads() {
+    // Load saved images on page load
+    async function loadSavedImages() {
+        try {
+            // Load profile image
+            const profileRef = storage.ref('profile/profile-image');
+            const profileUrl = await profileRef.getDownloadURL();
+            document.getElementById('profile-img').src = profileUrl;
+        } catch (error) {
+            console.log('No profile image found');
+        }
+        
+        // Load portfolio images
+        const portfolioImages = document.querySelectorAll('.portfolio-image img');
+        portfolioImages.forEach(async (img, index) => {
+            try {
+                const portfolioRef = storage.ref(`portfolio/image-${index}`);
+                const imageUrl = await portfolioRef.getDownloadURL();
+                img.src = imageUrl;
+            } catch (error) {
+                console.log(`No portfolio image found for index ${index}`);
+            }
+        });
+    }
+    
+    // Call on page load
+    loadSavedImages();
+    
+    // Profile image upload
+    const profileUpload = document.getElementById('profile-upload');
+    const profileImg = document.getElementById('profile-img');
+    
+    if (profileUpload && profileImg) {
+        profileUpload.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                try {
+                    const profileRef = storage.ref('profile/profile-image');
+                    await profileRef.put(file);
+                    const downloadURL = await profileRef.getDownloadURL();
+                    profileImg.src = downloadURL;
+                } catch (error) {
+                    console.error('Error uploading profile image:', error);
+                    alert('Failed to upload profile image. Please try again.');
+                }
+            }
+        });
+    }
+    
+    // Portfolio image uploads
+    const portfolioUploads = document.querySelectorAll('.portfolio-upload');
+    portfolioUploads.forEach((upload, index) => {
+        upload.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                try {
+                    const portfolioRef = storage.ref(`portfolio/image-${index}`);
+                    await portfolioRef.put(file);
+                    const downloadURL = await portfolioRef.getDownloadURL();
+                    const img = upload.previousElementSibling;
+                    img.src = downloadURL;
+                } catch (error) {
+                    console.error('Error uploading portfolio image:', error);
+                    alert('Failed to upload portfolio image. Please try again.');
+                }
+            }
+        });
+    });
+    
+    // CV upload with password protection
+    const cvUpload = document.getElementById('cv-upload');
+    if (cvUpload) {
+        const uploadBtn = document.querySelector('.btn-upload');
+        uploadBtn.onclick = function(e) {
+            e.preventDefault();
+            const password = prompt('Enter password to upload CV:');
+            if (password === 'blakpope2024') { // You can change this password
+                document.getElementById('cv-upload').click();
+            } else {
+                alert('Incorrect password');
+            }
+        };
+        
+        cvUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                // Store the file for download
+                window.uploadedCV = file;
+                
+                // Update button text to show file is uploaded
+                if (uploadBtn) {
+                    uploadBtn.textContent = `✓ ${file.name} Uploaded`;
+                    uploadBtn.style.background = '#4CAF50';
+                }
+            }
+        });
+    }
+}
+
+// CV Download Function
+function downloadCV() {
+    if (window.uploadedCV) {
+        // Download the uploaded CV
+        const url = URL.createObjectURL(window.uploadedCV);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = window.uploadedCV.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } else {
+        // Create a sample CV if none uploaded
+        const cvContent = `
+PRINCE CHINWENDU - THE BLAKPOPE
+Digital Alchemist | Brand Strategist | Systems Architect
+
+📍 Port Harcourt, Nigeria
+📞 08144249595
+✉️ pchinwendu@gmail.com
+
+🎯 PROFESSIONAL SUMMARY
+Innovative digital strategist with expertise in brand development, 
+system architecture, and marketing automation. Passionate about 
+transforming complex challenges into elegant, scalable solutions.
+
+⚙️ CORE COMPETENCIES
+• Brand Strategy & Identity Development
+• Digital Automation & CRM Systems
+• Course & Funnel Architecture
+• Content Strategy & Social Media Direction
+• Systems Integration & Optimization
+
+🏆 KEY ACHIEVEMENTS
+• Evro Homes: Delivered 35% growth in real estate brand visibility
+• Digital Kurrency: Achieved 2,000% increase in music streaming
+• LifeTaste Beverages: Successful product launch campaign
+
+🛠️ FRAMEWORK METHODOLOGY
+1. Purpose - Define the why behind every decision
+2. Structure - Build foundation for sustainable growth
+3. Story - Craft narratives that resonate and convert
+4. Systems - Automate processes for efficiency
+5. Scale - Expand reach while maintaining quality
+
+📚 PHILOSOPHY
+"Shaping minds, systems, and stories that scale."
+
+Helping people, products, and platforms reinvent and rise—
+from engineering to brand ecosystems.
+        `;
+        
+        const blob = new Blob([cvContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Prince_Chinwendu_CV.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+}
+
+// Contact Functions
+function openEmail() {
+    const email = document.querySelector('.contact-item:nth-child(3) .editable').textContent;
+    const subject = 'Let\'s Work Together - Project Inquiry';
+    const body = `Hi Prince,\n\nI visited your website and I'm interested in working with you.\n\nProject Details:\n- \n\nLet's discuss how we can collaborate.\n\nBest regards`;
+    
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+}
+
+function makeCall() {
+    const phone = document.querySelector('.contact-item:nth-child(2) .editable').textContent;
+    window.location.href = `tel:${phone}`;
+}
+
+
 
 // Portfolio item click handlers
 document.addEventListener('click', function(e) {
